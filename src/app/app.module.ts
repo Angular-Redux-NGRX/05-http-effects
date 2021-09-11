@@ -7,6 +7,12 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './store/app.reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { EffectsArray } from './store/effects';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -15,6 +21,13 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     SharedModule,
     UsuariosModule,
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot(EffectsArray),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
